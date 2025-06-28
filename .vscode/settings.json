@@ -1,8 +1,0 @@
-{
-    "terminal.integrated.defaultProfile.windows": "PowerShell",
-    "files.associations": {
-        ".env.devlopment": "properties",
-        ".env.example": "properties",
-        "ostream": "cpp"
-    }
-}
