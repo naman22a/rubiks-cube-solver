@@ -420,7 +420,7 @@ public:
         struct Node
         {
             CubeState state;
-            vector<moves> moves;
+            vector<moves> Moves;
             int last_face;
             int depth;
         };
@@ -453,7 +453,7 @@ public:
             if (temp.isSolved())
             {
                 cout << "Solution found at depth: " << current.depth << endl;
-                return current.moves;
+                return current.Moves;
             }
 
             // Skip if depth limit reached
@@ -475,7 +475,7 @@ public:
                 if (visited.find(next.state) == visited.end())
                 {
                     visited.insert(next.state);
-                    vector<moves> new_moves = current.moves;
+                    vector<moves> new_moves = current.Moves;
                     new_moves.push_back(static_cast<moves>(m));
                     q.push({next.state, new_moves, move_to_face[m], current.depth + 1});
                 }
@@ -639,7 +639,7 @@ public:
         struct Node
         {
             CubeState state;
-            vector<moves> moves;
+            vector<moves> Moves;
             int g; // Cost so far (number of moves)
             int f; // g + h (total estimated cost)
             int last_face;
@@ -679,7 +679,7 @@ public:
             if (temp.isSolved())
             {
                 cout << "Solution found at depth: " << current.g << " after " << iterations << " iterations" << endl;
-                return current.moves;
+                return current.Moves;
             }
 
             if (current.g >= max_depth)
@@ -702,7 +702,7 @@ public:
                 {
                     best_g[next.state] = new_g;
                     int h = next.heuristic();
-                    vector<moves> new_moves = current.moves;
+                    vector<moves> new_moves = current.Moves;
                     new_moves.push_back(static_cast<moves>(m));
                     pq.push({next.state, new_moves, new_g, new_g + h, move_to_face[m]});
                 }
@@ -736,7 +736,7 @@ public:
         struct Node
         {
             CubeState state;
-            vector<moves> moves;
+            vector<moves> Moves;
             int g; // Depth (moves taken)
             int last_face;
         };
@@ -780,7 +780,7 @@ public:
                 if (it != backward_visited.end())
                 {
                     // Solution found: combine forward and backward moves
-                    vector<moves> solution = current.moves;
+                    vector<moves> solution = current.Moves;
                     vector<moves> backward_moves = it->second.first;
                     // Append inverse of backward moves in reverse order
                     for (auto it = backward_moves.rbegin(); it != backward_moves.rend(); ++it)
@@ -807,7 +807,7 @@ public:
                     int new_g = current.g + 1;
                     if (visited_it == forward_visited.end() || new_g < visited_it->second.second)
                     {
-                        vector<moves> new_moves = current.moves;
+                        vector<moves> new_moves = current.Moves;
                         new_moves.push_back(static_cast<moves>(m));
                         forward_visited[next.state] = {new_moves, new_g};
                         forward_queue.push({next.state, new_moves, new_g, move_to_face[m]});
@@ -831,7 +831,7 @@ public:
                 {
                     // Solution found: combine forward and backward moves
                     vector<moves> solution = it->second.first;
-                    vector<moves> backward_moves = current.moves;
+                    vector<moves> backward_moves = current.Moves;
                     // Append inverse of backward moves in reverse order
                     for (auto it = backward_moves.rbegin(); it != backward_moves.rend(); ++it)
                     {
@@ -857,7 +857,7 @@ public:
                     int new_g = current.g + 1;
                     if (visited_it == backward_visited.end() || new_g < visited_it->second.second)
                     {
-                        vector<moves> new_moves = current.moves;
+                        vector<moves> new_moves = current.Moves;
                         new_moves.push_back(static_cast<moves>(m)); // Store forward move for path reconstruction
                         backward_visited[next.state] = {new_moves, new_g};
                         backward_queue.push({next.state, new_moves, new_g, move_to_face[m]});
